@@ -47,7 +47,7 @@ sudo docker compose logs --tail=30 api nginx
 sudo docker compose down
 ```
 
-실습을 마치면 Compose를 종료하고, 다음 시간까지 사용하지 않을 EC2를 콘솔에서 **중지(Stop)**합니다.
+실습을 마치면 Compose를 종료하고, 다음 시간까지 사용하지 않을 EC2를 콘솔에서 **중지(Stop)** 를 선택합니다.
 
 ## 구성 확인
 
@@ -95,7 +95,7 @@ Compose는 위의 `nginx.conf`를 사용합니다. 같은 Linux 태스크 안에
 - `nginx/nginx.ecs.conf`: 내부 API 주소가 `127.0.0.1:5000`
 - `nginx/Dockerfile.ecs`: 위 설정을 포함해 nginx 이미지를 빌드
 
-ECS 전용 웹 이미지는 수업 안내에서 **`-f nginx/Dockerfile.ecs`**를 지정해 프로젝트 루트의 **`./nginx`**를 빌드 경로로 사용합니다. Compose를 실행할 때는 이 파일들을 수정하거나 선택하지 않습니다. AWS 계정·이미지 저장소·실행 역할 설정은 ECS 실습 안내를 따릅니다.
+ECS 전용 웹 이미지는 수업 안내에서 `-f nginx/Dockerfile.ecs`를 지정해 프로젝트 루트의 `./nginx`를 빌드 경로로 사용합니다. Compose를 실행할 때는 이 파일들을 수정하거나 선택하지 않습니다. AWS 계정·이미지 저장소·실행 역할 설정은 ECS 실습 안내를 따릅니다.
 
 ---
 
