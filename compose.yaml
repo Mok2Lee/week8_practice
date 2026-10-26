@@ -1,0 +1,24 @@
+name: week8
+services:
+  api:
+    build: ./api
+    image: week8_01
+    container_name: week8_api01
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as r; r.urlopen('http://127.0.0.1:5000/api/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+  nginx:
+    build: ./nginx
+    image: week8_02
+    container_name: week8_web01
+    ports:
+      - "8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+networks:
+  default:
+    name: week8_net01
