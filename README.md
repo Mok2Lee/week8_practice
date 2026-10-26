@@ -28,9 +28,12 @@ Docker를 일반 사용자 권한으로 실행하도록 준비했다면 `sudo`�
 
 ## 3. 내 PC에서 웹 페이지 확인
 
-1. EC2 콘솔에서 **현재 퍼블릭 IP**를 확인합니다.
-2. 해당 EC2의 보안 그룹에 **인바운드 TCP 8080**, 출발지 **승인된 본인/강의실 공인 IP 범위**를 허용합니다.
-3. 내 PC 브라우저에서 `http://EC2퍼블릭IP:8080`으로 접속합니다.
+1. **EC2 → 인스턴스 선택 → 보안 탭 → 보안 그룹 링크**로 이동합니다.
+2. **인바운드 규칙 편집 → 규칙 추가**에서 사용자 지정 TCP, 포트 **8080**, 소스 **내 IP** 또는 승인된 강의실 공인 IP 범위를 입력하고 저장합니다.
+3. **아웃바운드 규칙**에서 외부 다운로드에 필요한 **HTTPS 443·HTTP 80** 허용 여부를 확인합니다. 기본 모든 트래픽 허용 규칙이 있으면 이미 허용된 상태입니다.
+4. EC2 콘솔에서 현재 퍼블릭 IPv4 주소를 확인하고, 내 PC 브라우저에서 `http://EC2퍼블릭IP:8080`으로 접속합니다.
+
+**웹 접속은 인바운드 8080, 외부 다운로드는 아웃바운드 80·443**입니다. 기존 SSH 규칙은 유지합니다. 화면별 설정과 실패 시 확인 순서는 [보안 그룹 실습 안내](docs/security-group.md)를 참고합니다.
 
 | 확인할 기능 | 입력 | 정상 결과 |
 |---|---|---|
@@ -95,10 +98,20 @@ Compose는 위의 `nginx.conf`를 사용합니다. 같은 Linux 태스크 안에
 - `nginx/nginx.ecs.conf`: 내부 API 주소가 `127.0.0.1:5000`
 - `nginx/Dockerfile.ecs`: 위 설정을 포함해 nginx 이미지를 빌드
 
-ECS 전용 웹 이미지는 수업 안내에서 `-f nginx/Dockerfile.ecs`를 지정해 프로젝트 루트의 `./nginx`를 빌드 경로로 사용합니다. Compose를 실행할 때는 이 파일들을 수정하거나 선택하지 않습니다. AWS 계정·이미지 저장소·실행 역할 설정은 ECS 실습 안내를 따릅니다.
+ECR 업로드부터 태스크 생성·접속·종료까지는 [ECS 배포 실습 안내](docs/ecs-deploy.md)를 따릅니다. 태스크 정의 JSON은 저장소 루트의 [task-definition.template.json](task-definition.template.json)을 사용합니다.
+
+| AWS 실습 자원 | 이름 |
+|---|---|
+| ECR 저장소 | `week8-api`, `week8-web` |
+| ECS 클러스터 | `week8-cluster` |
+| 태스크 정의 패밀리 | `week8-ecs` |
+| ECS 서비스 | `week8-service` |
+| CloudWatch 로그 그룹 | `/ecs/week8` |
+
+EC2 Compose를 실행할 때는 JSON이나 ECS용 파일을 수정할 필요가 없습니다. ECS 태스크 정의를 등록할 때만 JSON의 `ACCOUNT_ID` 전체와 승인된 실행 역할 ARN을 본인 수업 계정에 맞춥니다.
 
 ---
 
-기반 프로젝트: [Mok2Lee/week5_practice](https://github.com/Mok2Lee/week5_practice), 기준 커밋 `3cc0ee782cf7b26886781598ab6e471d62304e71`.
+기존 수업의 캡스톤 기획 도우미 기능을 유지한 8주차 배포용 프로젝트입니다.
 
 이 프로젝트는 수업용 Flask 개발 서버를 사용합니다.
