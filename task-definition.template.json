@@ -8,11 +8,11 @@
   },
   "cpu": "512",
   "memory": "1024",
-  "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/week8-role",
   "containerDefinitions": [
     {
       "name": "api",
-      "image": "ACCOUNT_ID.dkr.ecr.ap-northeast-2.amazonaws.com/week8-api:lesson-v1",
+      "image": "ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/week8-api:lesson-v1",
       "essential": true,
       "portMappings": [{"containerPort": 5000, "protocol": "tcp"}],
       "healthCheck": {
@@ -29,21 +29,21 @@
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "/ecs/week8",
-          "awslogs-region": "ap-northeast-2",
+          "awslogs-region": "AWS_REGION",
           "awslogs-stream-prefix": "ecs"
         }
       }
     },
     {
       "name": "nginx",
-      "image": "ACCOUNT_ID.dkr.ecr.ap-northeast-2.amazonaws.com/week8-web:lesson-v1",
+      "image": "ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/week8-web:lesson-v1",
       "essential": true,
       "portMappings": [{"containerPort": 80, "protocol": "tcp"}],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "/ecs/week8",
-          "awslogs-region": "ap-northeast-2",
+          "awslogs-region": "AWS_REGION",
           "awslogs-stream-prefix": "ecs"
         }
       }
